@@ -1,0 +1,47 @@
+plugins {
+    id 'org.springframework.boot' version '4.0.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.dataweave'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+
+    // implementation project(':common-utils')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // Jakarta Validation API
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    // Hibernate Validator (implementation)
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    // Required by Hibernate Validator
+    implementation 'org.glassfish:jakarta.el:4.0.2'
+}
+
+
+springBoot {
+    mainClass = 'com.producer.ApiServiceApplication'
+}
+
+
+test {
+    useJUnitPlatform()
+}

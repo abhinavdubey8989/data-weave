@@ -1,0 +1,5 @@
+rootProject.name = 'dataweave'
+
+include 'web'
+include 'domain'
+include 'consumers'
