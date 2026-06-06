@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "User",
+  "namespace": "com.dataweave.avro",
+  "fields": [
+    { "name": "eventId", "type": "string" },
+    { "name": "timestamp", "type": "long", "doc": "Epoch time in milliseconds" },
+    { "name": "isActive", "type": "boolean" },
+    { "name": "picture", "type": "string" },
+    { "name": "age", "type": "int" },
+    { "name": "status", "type": "string" },
+    { "name": "name", "type": "string" },
+    { "name": "address", "type": "string" },
+    { "name": "about", "type": { "type": "array", "items": "string" } },
+    { "name": "latitude", "type": "double" },
+    { "name": "longitude", "type": "double" },
+    { "name": "tools", "type": {
+      "type": "array",
+      "items": "com.dataweave.avro.Tool"
+    }
+    }
+  ]
+}
