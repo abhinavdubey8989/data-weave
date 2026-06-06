@@ -7,19 +7,27 @@ group = 'com.dataweave'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 
 dependencies {
 
-    // implementation project(':common-utils')
+    implementation project(':domain')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
 
-    implementation 'org.springframework.boot:spring-boot-starter-kafka'
 
+    implementation 'io.confluent:kafka-avro-serializer:7.6.0'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Lombok
@@ -38,7 +46,7 @@ dependencies {
 
 
 springBoot {
-    mainClass = 'com.producer.ApiServiceApplication'
+    mainClass = 'com.dataweave.ApiServiceApplication'
 }
 
 

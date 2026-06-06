@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "Tool",
+  "namespace": "com.dataweave.avro",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "name", "type": "string" }
+  ]
+}
