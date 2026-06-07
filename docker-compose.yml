@@ -11,13 +11,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    #    network_mode: host
+    network_mode: host
     environment:
       SERIALIZATION_TYPE: avro
       SPRING_PROFILES_ACTIVE: docker
       JAVA_OPTS: "-Xms1g -Xmx2g -XX:+UseG1GC"
-    ports:
-      - "9112:9111"
+    # ports are ignored when using network_mode as host
+    #    ports:
+    #      - "9112:9111"
     volumes:
       - ./logs/web:/app/logs
     networks:
