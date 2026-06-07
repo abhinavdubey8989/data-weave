@@ -27,11 +27,6 @@ COPY --from=builder /app/web/build/libs/*.jar app.jar
 # Expose the port your web module listens on (default 9111 as per your properties)
 EXPOSE 9111
 
-# Set environment variables that your application expects (e.g., SERIALIZATION_TYPE)
-# You can override these at runtime
-ENV SERIALIZATION_TYPE=json \
-    SPRING_PROFILES_ACTIVE=default
-
 # Healthcheck (optional)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --quiet --tries=1 --spider http://localhost:9111/actuator/health || exit 1

@@ -13,7 +13,6 @@ services:
       dockerfile: Dockerfile
     network_mode: host
     environment:
-      SERIALIZATION_TYPE: avro
       SPRING_PROFILES_ACTIVE: docker
       JAVA_OPTS: "-Xms1g -Xmx2g -XX:+UseG1GC"
     # ports are ignored when using network_mode as host

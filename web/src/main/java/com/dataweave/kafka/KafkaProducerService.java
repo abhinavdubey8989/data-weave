@@ -30,7 +30,7 @@ public class KafkaProducerService {
     private void initMetrics(MeterRegistry meterRegistry) {
         String serializationType = "json"; //System.getenv().get("SERIALIZATION_TYPE");
         if (serializationType == null || serializationType.isEmpty()) {
-            throw new RuntimeException("SERIALIZATION_TYPE environment variable is not set");
+            throw new RuntimeException("serializationType is invalid");
         }
 
         this.eventPublishedCounter =
