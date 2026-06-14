@@ -34,7 +34,8 @@ public class KafkaAvroConfig {
         config.put(ProducerConfig.RETRIES_CONFIG, 3);
         config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         config.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl);
-        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "zstd");
+//        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "zstd");
+        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "none");
         config.put(KafkaAvroSerializerConfig.AUTO_REGISTER_SCHEMAS, true);
         return new DefaultKafkaProducerFactory<>(config);
     }

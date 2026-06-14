@@ -98,6 +98,21 @@ public class KafkaProducerService {
     }
 
 
+    /**
+     *
+     * @param req
+     * [sleep in millisecond after 1 event] - [threads] - [time take to publish 1 million events]
+     * 1ms -  1 - 17 minutes
+     * 5ms -  1 - 85 minutes
+     * 10ms - 1 - 170 minutes
+     *
+     * 1ms   - 4 - 5 minutes
+     * 5ms   - 4 - 22 minutes
+     * 10ms  - 4 - 43 minutes
+     *
+     * Tip : use 4 threads & 5 milli-second sleep
+     *
+     */
     public void publishMessagesAsync(LoginRequest req) {
         long messagesPerThread = (long) Math.ceil((double) req.getEventCount() / workerThreadCount);
 
