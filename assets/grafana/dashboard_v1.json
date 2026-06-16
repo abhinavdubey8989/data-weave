@@ -3,8 +3,8 @@
   "kind": "Dashboard",
   "metadata": {
     "name": "ad82wbf",
-    "generation": 4,
-    "creationTimestamp": "2026-06-14T10:43:41Z",
+    "generation": 3,
+    "creationTimestamp": "2026-06-16T14:47:52Z",
     "labels": {},
     "annotations": {}
   },
@@ -286,7 +286,7 @@
         "kind": "Panel",
         "spec": {
           "id": 11,
-          "title": "Bytes allocated on the JVM heap per second",
+          "title": "Bytes allocated on the JVM heap per second *",
           "description": "Bytes allocated on the JVM heap per second",
           "links": [],
           "data": {
@@ -1392,8 +1392,8 @@
                       "spec": {
                         "x": 0,
                         "y": 0,
-                        "width": 24,
-                        "height": 8,
+                        "width": 12,
+                        "height": 9,
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-2"
@@ -1403,13 +1403,26 @@
                     {
                       "kind": "GridLayoutItem",
                       "spec": {
-                        "x": 0,
-                        "y": 8,
-                        "width": 24,
-                        "height": 11,
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 9,
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-1"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 9,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
                         }
                       }
                     }
@@ -1449,7 +1462,7 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-11"
+                          "name": "panel-4"
                         }
                       }
                     },
@@ -1475,7 +1488,7 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-4"
+                          "name": "panel-6"
                         }
                       }
                     },
@@ -1501,7 +1514,7 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-6"
+                          "name": "panel-8"
                         }
                       }
                     },
@@ -1523,19 +1536,6 @@
                       "spec": {
                         "x": 12,
                         "y": 24,
-                        "width": 12,
-                        "height": 8,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-8"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 12,
-                        "y": 32,
                         "width": 12,
                         "height": 8,
                         "element": {
