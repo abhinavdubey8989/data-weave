@@ -34,9 +34,14 @@ public class KafkaAvroConfig {
         config.put(ProducerConfig.RETRIES_CONFIG, 3);
         config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         config.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl);
-//        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "zstd");
-        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "none");
         config.put(KafkaAvroSerializerConfig.AUTO_REGISTER_SCHEMAS, true);
+
+        // Batching & compression
+        config.put(ProducerConfig.LINGER_MS_CONFIG, 20);
+        config.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
+        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "none");
+        // config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "zstd");
+
         return new DefaultKafkaProducerFactory<>(config);
     }
 

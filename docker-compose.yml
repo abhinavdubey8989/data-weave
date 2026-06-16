@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   producer:
@@ -6,23 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # network_mode: host
+    network_mode: host
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      JAVA_OPTS: "-Xms1g -Xmx2g -XX:+UseG1GC"
-    # ports are ignored when using network_mode as host
-    ports:
-      - "9112:9111"
+      JAVA_OPTS: "-Xms1g -Xmx1g -XX:+UseG1GC"
     volumes:
       - ./logs/web:/app/logs
-
-    # Remove when using `network_mode: host`
-    networks:
-      - flink_flink-network
-
-
-# Remove the networks section when using `network_mode: host`
-networks:
-  flink_flink-network:
-    # `external: true` : tells Docker Compose not to create it, use existing
-    external: true
