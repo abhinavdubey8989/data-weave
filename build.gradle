@@ -1,49 +1,86 @@
 plugins {
+
+    // Applies Gradle's Java plugin to the root project.
+    // Adds tasks like: ./gradlew compileJava, ./gradlew test, ./gradlew jar
+    // Also creates configurations: implementation, compileOnly, runtimeOnly, testImplementation
 	id 'java'
+
+    // Downloads Spring Boot Gradle Plugin & make this plugin available, but don't apply it to the root project.
+    // Useful because only some modules need Spring Boot & hence the root project doesn't become a Spring Boot application.
 	id 'org.springframework.boot' version '4.0.6' apply false
+
+    // Downloads Spring's Dependency Management plugin, but not applied to root
+    // This plugin allows importing BOMs (Bill Of Materials).
 	id 'io.spring.dependency-management' version '1.1.7' apply false
 }
 
-group = 'com.dataweave'
-version = '0.0.1-SNAPSHOT'
-description = 'Kafka producer consumer app'
 
+// These 3 lines are project meta-data
+group = 'com.dataweave' // Generated artifact: com.dataweave:web:0.0.1-SNAPSHOT
+version = '0.0.1-SNAPSHOT' // Artifact version, Produces: web-0.0.1-SNAPSHOT.jar
+description = 'Kafka producer consumer app' // Project metadata, mostly informational.
+
+
+// This is Gradle's preferred way of selecting Java
+// What it means languageVersion = JavaLanguageVersion.of(21)
+// Compile using Java 21. Even if developer machine has: Java 17, Java 21, Java 24
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
+
+// Applied to: root, web, domain, consumers
 allprojects {
     repositories {
+        // Main public repository, Dependencies like: implementation 'org.springframework.boot:spring-boot-starter-web'
+        // come from Maven Central.
         mavenCentral()
-        maven { url 'https://packages.confluent.io/maven/' } // Add Confluent repo
+
+        // Needed for Confluent libraries.
+        // These are not always available in Maven Central.
+        maven { url 'https://packages.confluent.io/maven/' }
     }
 }
 
 
+// subprojects block : Everything inside: subprojects {}is applied to: web, domain, consumers
+// but NOT the root project
 subprojects {
 
+    // Every module becomes a Java module.
+    // Equivalent to: plugins {id 'java'}
+    // inside each child module.
     apply plugin: 'java'
 
+    // Java 21 for all modules
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(21)
         }
     }
 
+    // This is primarily for Lombok.
+    // Dependency available only during compilation. Not included in final jar.
     configurations {
+
+        // Anything in annotationProcessor is also visible in compileOnly
+        // Without this, IDEs sometimes fail to see generated Lombok code.
         compileOnly {
             extendsFrom annotationProcessor
         }
     }
 
+    // Common dependencies, these are added to every module.
     dependencies {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     }
 
+
+    // Configures all test tasks : :test, :web:test, :domain:test, :consumers:test
     tasks.withType(Test) {
         useJUnitPlatform()
     }

@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  producer:
+    container_name: dataweave-producer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: "-Xms1g -Xmx2g -XX:+UseG1GC"
+    ports:
+      - "9112:9111"
+    volumes:
+      - ./logs/web:/app/logs
+    networks:
+      - flink_flink-network
+
+networks:
+  flink_flink-network:
+    # `external: true` : tells Docker Compose not to create it, use existing
+    external: true

@@ -31,6 +31,10 @@ public class KafkaAvroProducerService {
 
     private void initMetrics(MeterRegistry meterRegistry) {
         String serializationType = "avro"; //System.getenv().get("SERIALIZATION_TYPE");
+        if (serializationType == null || serializationType.isEmpty()) {
+            throw new RuntimeException("serializationType is invalid");
+        }
+
         this.eventPublishedCounter =
                 Counter.builder("kafka_events_published_total")
                         .description("Total Kafka events published (Avro)")

@@ -3,8 +3,8 @@
   "kind": "Dashboard",
   "metadata": {
     "name": "ad82wbf",
-    "generation": 18,
-    "creationTimestamp": "2026-06-05T05:17:41Z",
+    "generation": 3,
+    "creationTimestamp": "2026-06-16T14:47:52Z",
     "labels": {},
     "annotations": {}
   },
@@ -17,10 +17,7 @@
             "kind": "DataQuery",
             "group": "grafana",
             "version": "v0",
-            "spec": {},
-            "labels": {
-              "grafana.app/export-label": "grafana-1"
-            }
+            "spec": {}
           },
           "enable": true,
           "hide": true,
@@ -54,8 +51,8 @@
                       "version": "v0",
                       "spec": {
                         "editorMode": "code",
-                        "expr": "rate(kafka_events_published_total{serialization=~\"$serialization\"}[1m])",
-                        "legendFormat": "[{{serialization}}] Events per second",
+                        "expr": "rate(kafka_events_published_total{server=~\"$server\"}[1m])",
+                        "legendFormat": "[{{server}}] Events per second",
                         "range": true
                       },
                       "labels": {
@@ -289,7 +286,7 @@
         "kind": "Panel",
         "spec": {
           "id": 11,
-          "title": "Bytes allocated on the JVM heap per second",
+          "title": "Bytes allocated on the JVM heap per second *",
           "description": "Bytes allocated on the JVM heap per second",
           "links": [],
           "data": {
@@ -432,9 +429,9 @@
                       "spec": {
                         "editorMode": "code",
                         "exemplar": false,
-                        "expr": "kafka_events_published_total{serialization=~\"$serialization\"}",
+                        "expr": "sum by (server) (kafka_events_published_total{server=~\"$server\"})",
                         "format": "time_series",
-                        "legendFormat": "{{serialization}}",
+                        "legendFormat": "{{server}}",
                         "range": true
                       },
                       "labels": {
@@ -474,6 +471,7 @@
               },
               "fieldConfig": {
                 "defaults": {
+                  "unit": "sishort",
                   "min": 0,
                   "thresholds": {
                     "mode": "absolute",
@@ -1313,7 +1311,7 @@
                       "spec": {
                         "editorMode": "code",
                         "exemplar": false,
-                        "expr": "sum by(server)(\n    executor_completed_tasks_total{\n      name=\"kafka-producer-executor\",\n      server=~\"$server\"\n    }\n)",
+                        "expr": "sum by(server)(\n    executor_completed_tasks_total{\n      server=~\"$server\"\n    }\n)",
                         "format": "time_series",
                         "legendFormat": "{{serialization}}",
                         "range": true
@@ -1394,8 +1392,8 @@
                       "spec": {
                         "x": 0,
                         "y": 0,
-                        "width": 24,
-                        "height": 8,
+                        "width": 12,
+                        "height": 9,
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-2"
@@ -1405,13 +1403,26 @@
                     {
                       "kind": "GridLayoutItem",
                       "spec": {
-                        "x": 0,
-                        "y": 8,
-                        "width": 24,
-                        "height": 11,
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 9,
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-1"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 9,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
                         }
                       }
                     }
@@ -1451,7 +1462,7 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-11"
+                          "name": "panel-4"
                         }
                       }
                     },
@@ -1477,7 +1488,7 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-4"
+                          "name": "panel-6"
                         }
                       }
                     },
@@ -1503,7 +1514,7 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-6"
+                          "name": "panel-8"
                         }
                       }
                     },
@@ -1529,19 +1540,6 @@
                         "height": 8,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-8"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 12,
-                        "y": 32,
-                        "width": 12,
-                        "height": 8,
-                        "element": {
-                          "kind": "ElementReference",
                           "name": "panel-10"
                         }
                       }
@@ -1560,9 +1558,9 @@
     "tags": [],
     "timeSettings": {
       "timezone": "browser",
-      "from": "now-15m",
+      "from": "now-30m",
       "to": "now",
-      "autoRefresh": "5s",
+      "autoRefresh": "10s",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -1656,78 +1654,6 @@
       {
         "kind": "QueryVariable",
         "spec": {
-          "name": "app",
-          "current": {
-            "text": "",
-            "value": ""
-          },
-          "label": "Application name",
-          "hide": "dontHide",
-          "refresh": "onDashboardLoad",
-          "skipUrlSync": false,
-          "query": {
-            "kind": "DataQuery",
-            "group": "prometheus",
-            "version": "v0",
-            "spec": {
-              "qryType": 1,
-              "query": "label_values(application_ready_time_seconds,application)",
-              "refId": "PrometheusVariableQueryEditor-VariableQuery"
-            },
-            "labels": {
-              "grafana.app/export-label": "prometheus-1"
-            }
-          },
-          "regex": "",
-          "regexApplyTo": "value",
-          "sort": "disabled",
-          "definition": "label_values(application_ready_time_seconds,application)",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
-          "allowCustomValue": true
-        }
-      },
-      {
-        "kind": "QueryVariable",
-        "spec": {
-          "name": "serialization",
-          "current": {
-            "text": "",
-            "value": ""
-          },
-          "label": "Serialization",
-          "hide": "dontHide",
-          "refresh": "onDashboardLoad",
-          "skipUrlSync": false,
-          "description": "- Type of kafka payload serialization (json, avro etc)\n- Directly use it with the application metric, without other variables",
-          "query": {
-            "kind": "DataQuery",
-            "group": "prometheus",
-            "version": "v0",
-            "spec": {
-              "qryType": 1,
-              "query": "label_values(kafka_events_published_total{job=\"kafka-producer-app\"},serialization)",
-              "refId": "PrometheusVariableQueryEditor-VariableQuery"
-            },
-            "labels": {
-              "grafana.app/export-label": "prometheus-1"
-            }
-          },
-          "regex": "",
-          "regexApplyTo": "value",
-          "sort": "disabled",
-          "definition": "label_values(kafka_events_published_total{job=\"kafka-producer-app\"},serialization)",
-          "options": [],
-          "multi": true,
-          "includeAll": true,
-          "allValue": ".*",
-          "allowCustomValue": true
-        }
-      },
-      {
-        "kind": "QueryVariable",
-        "spec": {
           "name": "executor_pool",
           "current": {
             "text": "",
@@ -1756,8 +1682,9 @@
           "sort": "disabled",
           "definition": "label_values(executor_pool_size_threads,name)",
           "options": [],
-          "multi": false,
-          "includeAll": false,
+          "multi": true,
+          "includeAll": true,
+          "allValue": ".*",
           "allowCustomValue": true
         }
       }

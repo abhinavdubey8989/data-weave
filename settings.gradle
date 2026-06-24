@@ -1,12 +1,81 @@
+/**
+ * settings.gradle is the first Gradle file that gets evaluated
+ * Think of the build lifecycle as:
+ *      1. settings.gradle   ← Discover project structure
+ *      2. build.gradle      ← Configure projects
+ *      3. Execute tasks
+ *
+ * Its primary job is:
+ *      Tell Gradle what projects/modules exist
+ *      Configure plugin resolution
+ *      Define the root project name
+ */
+
+
+/**
+ * This block controls: Where should Gradle download plugins from?
+ *
+ */
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        mavenCentral()
+        gradlePluginPortal() // Official Gradle plugin repository
+        mavenCentral() // Additional plugin repository
     }
 }
 
+
+/**
+ * Without it  Gradle uses directory name: /home/user/projects/my-kafka-app  becomes rootProject.name = "my-kafka-app"  automatically.
+ * With: rootProject.name = 'dataweave' Gradle explicitly uses: dataweave
+ *
+ *
+ * You can verify: ./gradlew projects
+ * Output:
+ * Root project 'dataweave'
+ *
+ */
 rootProject.name = 'dataweave'
 
+
+
+/**
+ * This is the most important part. It tells Gradle: These directories are subprojects/modules.
+ * with `include 'web'`
+ * Gradle expects:
+ * dataweave/
+ * │
+ * ├── web/
+ * │   └── build.gradle
+ * and creates project: :web
+ *
+ * Internal Project Tree After processing settings.gradle:
+ * :dataweave      (root)
+ * │
+ * ├── :web
+ * ├── :domain
+ * └── :consumers
+ *
+ */
+
+/**
+ * [How Inter-module Dependencies Work]
+ * Because the modules are included, you can write inside : web/build.gradle
+ *
+ * ```java
+ * dependencies {
+ *  implementation project(':domain')
+ *  }
+ *  ```
+ *
+ *  Meaning:
+ *  web
+ *  ↓ depends on
+ *  domain
+ *
+ *
+ *  each module becomes a first-class Gradle project that can depend on the others via:
+ *  implementation project(':domain')
+ */
 include 'web'
 include 'domain'
 include 'consumers'

@@ -1,9 +1,4 @@
-version: '3.8'
-
-networks:
-  flink_flink-network:
-    # `external: true` : tells Docker Compose not to create it, use existing
-    external: true
+version: "3.8"
 
 services:
   producer:
@@ -11,14 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    #    network_mode: host
+    network_mode: host
     environment:
-      SERIALIZATION_TYPE: avro
       SPRING_PROFILES_ACTIVE: docker
-      JAVA_OPTS: "-Xms1g -Xmx2g -XX:+UseG1GC"
-    ports:
-      - "9112:9111"
+      JAVA_OPTS: "-Xms1g -Xmx1g -XX:+UseG1GC"
     volumes:
       - ./logs/web:/app/logs
-    networks:
-      - flink_flink-network
